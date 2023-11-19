@@ -292,7 +292,7 @@ glm::mat4 * NodoGrafoEscena::leerPtrMatriz( unsigned indice )
    // Sustituir 'return nullptr' por lo que corresponda.
    //
    assert (indice < vectorEntradas.size());
-   assert (vectorEntradas[indice].tipo != TipoEntNGE::transformacion);
+   assert (vectorEntradas[indice].tipo == TipoEntNGE::transformacion);
    assert (vectorEntradas[indice].matriz != nullptr);
 
    return vectorEntradas[indice].matriz;
@@ -458,7 +458,128 @@ void Portatil::fijarH( const float h_nuevo )
    *pm_escy_h = glm::scale( glm::vec3( 1.0, h_nuevo/1.5, 1.0 ));
 }
 
+/////////////////////////////////////////////////
 
+GrafoEstrellaX::GrafoEstrellaX( const float alpha, unsigned n ) 
+:  NodoGrafoEscena() {
+
+   velocidad_giro = alpha;
+   
+   using namespace glm;
+   NodoGrafoEscena * estrella = new NodoGrafoEscena();
+   unsigned ind_animacion = agregar(scale(vec3(1.0,1.0,1.0)));
+   estrella->agregar( scale(vec3(2.6, 2.6, 2.6)) );
+   estrella->agregar( rotate(radians(90.0f), vec3(0.0, 1.0, 0.0)) );
+   estrella->agregar( translate(vec3(-0.5, -0.5, 0.0)) );
+   estrella->agregar( new EstrellaZ(n) );
+   agregar(estrella);
+
+   NodoGrafoEscena * puntas = new NodoGrafoEscena();
+   puntas->agregar( rotate(radians(90.0f), vec3(0.0,1.0,0.0)) );
+   puntas->agregar( translate(vec3(1.3,0.0,0.0)) );
+   puntas->agregar( scale(vec3(0.14, 0.15, 0.14)) );
+   puntas->agregar( rotate(radians(-90.0f), vec3(0.0,0.0,1.0)) );
+   puntas->agregar( new Cono(12,24) );
+   for (unsigned i = 0; i < n; i++) {
+      float angulo = 2.0 * M_PI * i / n;
+      agregar(rotate(angulo, vec3(1.0,0.0,0.0)));
+      agregar(puntas);
+   }
+
+   giro_estrella = leerPtrMatriz(ind_animacion);
+
+}
+
+unsigned GrafoEstrellaX::leerNumParametros() const {
+   return 1;
+}
+
+void GrafoEstrellaX::actualizarEstadoParametro( const unsigned iParam, const float t_sec ) {
+   switch (iParam)
+   {
+   case 0:
+      girar_estrella(velocidad_giro*t_sec);
+      break;
+   default:
+      break;
+   }
+}
+
+void GrafoEstrellaX::girar_estrella(const float alpha) {
+   *giro_estrella = glm::rotate( alpha, glm::vec3( 0.0, 1.0, 0.0 ));
+}
+
+/////////////////////////////////////////////////
+
+GrafoCubos::GrafoCubos( const float velocidad, unsigned n, unsigned m ) 
+:  NodoGrafoEscena() {
+
+   velocidad_giro = velocidad;
+   
+   using namespace glm;
+   NodoGrafoEscena * cubo_principal = new NodoGrafoEscena();
+   NodoGrafoEscena * cubos_auxiliares_ejeX = new NodoGrafoEscena();
+   NodoGrafoEscena * cubos_auxiliares_ejeZ = new NodoGrafoEscena();
+   NodoGrafoEscena * cubos_auxiliares_ejeY = new NodoGrafoEscena();
+   unsigned ind_animacion_ejeX = cubos_auxiliares_ejeX->agregar((scale(vec3(1.0,1.0,1.0))));
+   unsigned ind_animacion_ejeZ = cubos_auxiliares_ejeZ->agregar((scale(vec3(1.0,1.0,1.0))));
+   unsigned ind_animacion_ejeY = cubos_auxiliares_ejeY->agregar((scale(vec3(1.0,1.0,1.0))));
+   cubo_principal->agregar( translate(vec3(-0.5, -0.5, -0.5)) );
+   //cubos_auxiliares->agregar( scale)
+   for(int t = 0; t < 2; t++) {
+      for (int j = 0; j < 2; j++) {
+         for (int i = 0; i < 2; ++i) {
+            cubo_principal->agregar( new RejillaY(n, m) );
+            cubo_principal->agregar( rotate(radians(90.0f), vec3(0.0, 0.0, 1.0)) );
+         }
+         cubo_principal->agregar( translate(vec3(-1.0, -1.0, 0.0)));
+      }
+      cubo_principal->agregar( rotate(radians(90.0f), vec3(0.0, 1.0, 0.0)) );
+      cubo_principal->agregar( translate(vec3(-1.0, 0.0, 0.0)));
+   }
+
+   cubos_auxiliares_ejeX->agregar(translate(vec3(-0.75,0.0,0.0)));
+   cubos_auxiliares_ejeX->agregar(scale(vec3(0.25,0.15,0.15)));
+   cubos_auxiliares_ejeX->agregar(new Cubo());
+   cubos_auxiliares_ejeX->agregar(translate(vec3(1.5*(4),0.0,0.0)));
+   cubos_auxiliares_ejeX->agregar(new Cubo());
+   agregar(cubos_auxiliares_ejeX);
+   cubos_auxiliares_ejeY->agregar(rotate(radians(90.0f), vec3(0.0,0.0,1.0)));
+   cubos_auxiliares_ejeY->agregar(cubos_auxiliares_ejeX);
+   agregar(cubos_auxiliares_ejeY);
+   cubos_auxiliares_ejeZ->agregar(rotate(radians(90.0f), vec3(1.0,0.0,0.0)));
+   cubos_auxiliares_ejeZ->agregar(cubos_auxiliares_ejeY);
+   agregar(cubos_auxiliares_ejeZ);
+
+
+   agregar(cubo_principal);
+
+   giro_cubos_ejeX = cubos_auxiliares_ejeX->leerPtrMatriz(ind_animacion_ejeX);
+   giro_cubos_ejeY = cubos_auxiliares_ejeY->leerPtrMatriz(ind_animacion_ejeY);
+   giro_cubos_ejeZ = cubos_auxiliares_ejeZ->leerPtrMatriz(ind_animacion_ejeZ);
+
+}
+
+unsigned GrafoCubos::leerNumParametros() const {
+   return 1;
+}
+
+void GrafoCubos::actualizarEstadoParametro( const unsigned iParam, const float t_sec ) {
+   switch (iParam)
+   {
+   case 0:
+      girar_cubos(velocidad_giro*t_sec);
+      break;
+   default:
+      break;
+   }
+}
+
+void GrafoCubos::girar_cubos(const float velocidad) {
+   *giro_cubos_ejeX = glm::rotate( velocidad, glm::vec3( 1.0, 0.0, 0.0 ));
+   *giro_cubos_ejeY = glm::rotate( velocidad, glm::vec3( 0.0, 1.0, 0.0 ));
+   *giro_cubos_ejeZ = glm::rotate( velocidad, glm::vec3( 0.0, 0.0, 1.0 ));
+}
 
 
 

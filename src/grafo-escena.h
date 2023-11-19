@@ -130,7 +130,31 @@ class Portatil : public NodoGrafoEscena
       void fijarAlpha( const float alpha_nuevo );
 };
 
+class GrafoEstrellaX: public NodoGrafoEscena
+{
+   protected:
+      glm::mat4 * giro_estrella = nullptr;
+      float velocidad_giro = 2.5;
+   public:
+      GrafoEstrellaX(const float alpha, unsigned n);
+      virtual unsigned leerNumParametros() const;
+      virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+      void girar_estrella(const float alpha);
+};
 
+class GrafoCubos: public NodoGrafoEscena
+{
+   protected:
+      glm::mat4 * giro_cubos_ejeX = nullptr,
+                * giro_cubos_ejeY = nullptr,
+                * giro_cubos_ejeZ = nullptr;
+      float velocidad_giro = 2.5;
+   public:
+      GrafoCubos(const float velocidad, unsigned n, unsigned m);
+      virtual unsigned leerNumParametros() const;
+      virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+      void girar_cubos(const float alpha);
+};
 
 #endif // GRAFO_ESCENA_HPP
 
