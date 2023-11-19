@@ -357,7 +357,7 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
 
    using namespace glm;
     NodoGrafoEscena * raton = new NodoGrafoEscena();
-    NodoGrafoEscena * visagras = new NodoGrafoEscena();
+    NodoGrafoEscena * bisagras = new NodoGrafoEscena();
     NodoGrafoEscena * pen = new NodoGrafoEscena();
     NodoGrafoEscena * base = new NodoGrafoEscena();
     NodoGrafoEscena * alfombrilla = new NodoGrafoEscena();
@@ -368,7 +368,7 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
    raton->agregar ( scale(vec3(0.1, 0.1, 0.3)) );
    raton->agregar ( rotate(radians(90.0f), vec3(1.0f,0.0f,0.0f)) );
    raton->agregar ( new Cilindro(12,24) );
-   
+
    raton->agregar ( scale(vec3(1, 0.6, 1)) );
    raton->agregar ( new Esfera(20,20) );
 
@@ -380,30 +380,30 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
    raton->agregar ( scale(vec3(0.2, 0.6, 0.2)) );
    raton->agregar ( new Esfera(20,20) );
 
-   // Visagras
-   visagras->agregar ( translate( vec3(0.0f,0.0f,0.0f)) );
-   visagras->agregar ( scale(vec3(0.1, 0.1, 0.1)) );
-   visagras->agregar ( rotate(radians(90.0f), vec3(0.0f,0.0f,1.0f)) );
-   visagras->agregar ( translate( vec3(0.0f,0.0f,-15.0f)) );
-   visagras->agregar ( scale(vec3(0.45, 3, 0.45)) );
-   visagras->agregar ( translate( vec3(0.0f,-6.5f,4.5f)) );
-   visagras->agregar ( new Cilindro(12,24));
+   // Bisagras
+   bisagras->agregar ( translate( vec3(0.0f,0.0f,0.0f)) );
+   bisagras->agregar ( scale(vec3(0.1, 0.1, 0.1)) );
+   bisagras->agregar ( rotate(radians(90.0f), vec3(0.0f,0.0f,1.0f)) );
+   bisagras->agregar ( translate( vec3(0.0f,0.0f,-15.0f)) );
+   bisagras->agregar ( scale(vec3(0.45, 3, 0.45)) );
+   bisagras->agregar ( translate( vec3(0.0f,-6.5f,4.5f)) );
+   bisagras->agregar ( new Cilindro(12,24));
 
-   visagras->agregar ( translate( vec3(0.0f,12.0f,0.0f)) );
-   visagras->agregar ( new Cilindro(12,24));
+   bisagras->agregar ( translate( vec3(0.0f,12.0f,0.0f)) );
+   bisagras->agregar ( new Cilindro(12,24));
 
-   visagras->agregar ( translate( vec3(0.0f,1.0f,0.0f)) );
-   visagras->agregar ( scale(vec3(1, 0.2, 1)) );
-   visagras->agregar ( new Esfera(20,20) );
+   bisagras->agregar ( translate( vec3(0.0f,1.0f,0.0f)) );
+   bisagras->agregar ( scale(vec3(1, 0.2, 1)) );
+   bisagras->agregar ( new Esfera(20,20) );
 
-   visagras->agregar ( translate( vec3(0.0f,-5.0f,0.0f)) );
-   visagras->agregar ( new Esfera(20,20) );
+   bisagras->agregar ( translate( vec3(0.0f,-5.0f,0.0f)) );
+   bisagras->agregar ( new Esfera(20,20) );
 
-   visagras->agregar ( translate( vec3(0.0f,-55.0f,0.0f)) );
-   visagras->agregar ( new Esfera(20,20) );
+   bisagras->agregar ( translate( vec3(0.0f,-55.0f,0.0f)) );
+   bisagras->agregar ( new Esfera(20,20) );
 
-   visagras->agregar ( translate( vec3(0.0f,-5.0f,0.0f)) );
-   visagras->agregar ( new Esfera(20,20) );
+   bisagras->agregar ( translate( vec3(0.0f,-5.0f,0.0f)) );
+   bisagras->agregar ( new Esfera(20,20) );
 
 
 
@@ -440,7 +440,7 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
 
    // Dibujar portátil completo
    agregar(raton);
-   agregar(visagras);
+   agregar(bisagras);
    agregar(pen);
    agregar(base);
    agregar(alfombrilla);
