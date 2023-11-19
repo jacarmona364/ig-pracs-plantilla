@@ -122,10 +122,12 @@ class NodoGrafoEscena : public Objeto3D
 class Portatil : public NodoGrafoEscena
 {
    protected:
-      glm::mat4 * pm_rot_alpha = nullptr,
-                * pm_escy_h = nullptr;
+      glm::mat4 * cierra_pantalla = nullptr,
+                * mueve_raton = nullptr,
+                * inserta_pen = nullptr;
+      float velocidad_cierre_pantalla = 2.5;
    public:
-      Portatil( const float h_inicial, const float alpha_inicial );
+      Portatil( const float alpha);
       void fijarH( const float h_nuevo ) ;
       void fijarAlpha( const float alpha_nuevo );
 };

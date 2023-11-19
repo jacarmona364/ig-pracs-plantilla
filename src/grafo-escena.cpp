@@ -350,7 +350,7 @@ bool NodoGrafoEscena::buscarObjeto
    return false ;
 }
 
-Portatil::Portatil( const float h_inicial, const float alpha_inicial ) 
+Portatil::Portatil( const float h_inicial) 
 :  NodoGrafoEscena() {
 
    ponerNombre( std::string("Portátil"));
@@ -450,12 +450,12 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
 
 void Portatil::fijarAlpha( const float alpha_nuevo )
 {
-   *pm_rot_alpha = glm::rotate( alpha_nuevo, glm::vec3( 0.0, 0.0, 1.0 ));
+   *cierra_pantalla = glm::rotate( alpha_nuevo, glm::vec3( 0.0, 0.0, 1.0 ));
 }
 
 void Portatil::fijarH( const float h_nuevo )
 {
-   *pm_escy_h = glm::scale( glm::vec3( 1.0, h_nuevo/1.5, 1.0 ));
+   *inserta_pen = glm::scale( glm::vec3( 1.0, h_nuevo/1.5, 1.0 ));
 }
 
 /////////////////////////////////////////////////
@@ -521,9 +521,11 @@ GrafoCubos::GrafoCubos( const float velocidad, unsigned n, unsigned m )
    NodoGrafoEscena * cubos_auxiliares_ejeX = new NodoGrafoEscena();
    NodoGrafoEscena * cubos_auxiliares_ejeZ = new NodoGrafoEscena();
    NodoGrafoEscena * cubos_auxiliares_ejeY = new NodoGrafoEscena();
+
    unsigned ind_animacion_ejeX = cubos_auxiliares_ejeX->agregar((scale(vec3(1.0,1.0,1.0))));
    unsigned ind_animacion_ejeZ = cubos_auxiliares_ejeZ->agregar((scale(vec3(1.0,1.0,1.0))));
    unsigned ind_animacion_ejeY = cubos_auxiliares_ejeY->agregar((scale(vec3(1.0,1.0,1.0))));
+
    cubo_principal->agregar( translate(vec3(-0.5, -0.5, -0.5)) );
    //cubos_auxiliares->agregar( scale)
    for(int t = 0; t < 2; t++) {
