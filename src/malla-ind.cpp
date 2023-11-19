@@ -307,7 +307,7 @@ Cubo::Cubo()
          { +1.0, +1.0, +1.0 }, // 7
       } ;
 
-
+   //ponerColor({0,0,0});
 
    triangulos =
       {  {0,1,3}, {0,3,2}, // X-
@@ -333,7 +333,7 @@ Tetraedro::Tetraedro()
          {0, 1, 0} //3
       } ;
    
-   ponerColor({1,1,1});
+   //ponerColor({1,1,1});
 
    triangulos =
       {  {0,1,2}, {0,1,3}, // X-

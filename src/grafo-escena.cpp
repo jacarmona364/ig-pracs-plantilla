@@ -368,7 +368,7 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
    raton->agregar ( scale(vec3(0.1, 0.1, 0.3)) );
    raton->agregar ( rotate(radians(90.0f), vec3(1.0f,0.0f,0.0f)) );
    raton->agregar ( new Cilindro(12,24) );
-
+   
    raton->agregar ( scale(vec3(1, 0.6, 1)) );
    raton->agregar ( new Esfera(20,20) );
 
@@ -416,13 +416,13 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
    pen->agregar ( scale(vec3(1.4, 1.8, 1.4)) );
    pen->agregar ( translate( vec3(-0.7f,0.0f,0.0f)) );
 
-   pen->agregar ( new Cubo() );
+   pen->agregar ( new CuboColores() );
 
 
    // Base Portátil
    base->agregar ( translate( vec3(0.0f, 0.0f, 0.0f)) );
    base->agregar ( scale(vec3(2.0, 0.04, 1.25)) );
-   base->agregar ( new Cubo() );
+   base->agregar ( new CuboColores() );
 
 
    // Alfombrilla
@@ -434,7 +434,7 @@ Portatil::Portatil( const float h_inicial, const float alpha_inicial )
    pantalla->agregar ( rotate(radians(270.0f), vec3(1.0f,0.0f,0.0f)) );
    pantalla->agregar ( translate( vec3(0.0f, 1.30f, 1.30f)) );
    pantalla->agregar ( scale(vec3(2.0, 0.04, 1.25)) );
-   pantalla->agregar ( new Cubo() );
+   pantalla->agregar ( new CuboColores() );
 
 
 
