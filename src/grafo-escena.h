@@ -125,11 +125,13 @@ class Portatil : public NodoGrafoEscena
       glm::mat4 * cierra_pantalla = nullptr,
                 * mueve_raton = nullptr,
                 * inserta_pen = nullptr;
-      float velocidad_cierre_pantalla = 2.5;
+      float velocidad = 2.5;
    public:
       Portatil( const float alpha);
-      void fijarH( const float h_nuevo ) ;
-      void fijarAlpha( const float alpha_nuevo );
+      void cerrarPantalla( const float alpha_nuevo ) ;
+      void insertarPen( const float h_nuevo );
+      virtual void actualizarEstadoParametro(const unsigned iParam, const float t_sec);
+      virtual unsigned leerNumParametros() const;
 };
 
 class GrafoEstrellaX: public NodoGrafoEscena

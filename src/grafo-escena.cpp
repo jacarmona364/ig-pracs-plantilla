@@ -380,6 +380,9 @@ Portatil::Portatil( const float h_inicial)
    raton->agregar ( scale(vec3(0.2, 0.6, 0.2)) );
    raton->agregar ( new Esfera(20,20) );
 
+   agregar(raton);
+
+
    // Bisagras
    bisagras->agregar ( translate( vec3(0.0f,0.0f,0.0f)) );
    bisagras->agregar ( scale(vec3(0.1, 0.1, 0.1)) );
@@ -405,9 +408,14 @@ Portatil::Portatil( const float h_inicial)
    bisagras->agregar ( translate( vec3(0.0f,-5.0f,0.0f)) );
    bisagras->agregar ( new Esfera(20,20) );
 
+   agregar(bisagras);
+
+
 
 
    // Pen
+   unsigned ind_ani_pen = pen->agregar(scale(vec3(1.0,1.0,1.0)));
+
    pen->agregar ( translate( vec3(-2.1f,0.0f,-1.0f)) );
    pen->agregar ( scale(vec3(0.2, 0.01, 0.05)) );
 
@@ -418,17 +426,25 @@ Portatil::Portatil( const float h_inicial)
 
    pen->agregar ( new CuboColores() );
 
+   inserta_pen = pen->leerPtrMatriz(ind_ani_pen);
+
+
+   agregar(pen);
+
 
    // Base Portátil
    base->agregar ( translate( vec3(0.0f, 0.0f, 0.0f)) );
    base->agregar ( scale(vec3(2.0, 0.04, 1.25)) );
    base->agregar ( new CuboColores() );
 
+   agregar(base);
 
    // Alfombrilla
    alfombrilla->agregar ( scale(vec3(2,0,1.25)) );
    alfombrilla->agregar ( translate( vec3(1.15f,-4.0f, -0.5f)) );
    alfombrilla->agregar ( new RejillaY(10,10) );
+
+   agregar(alfombrilla);
 
    // Pantalla
    pantalla->agregar ( rotate(radians(270.0f), vec3(1.0f,0.0f,0.0f)) );
@@ -436,26 +452,37 @@ Portatil::Portatil( const float h_inicial)
    pantalla->agregar ( scale(vec3(2.0, 0.04, 1.25)) );
    pantalla->agregar ( new CuboColores() );
 
-
-
-   // Dibujar portátil completo
-   agregar(raton);
-   agregar(bisagras);
-   agregar(pen);
-   agregar(base);
-   agregar(alfombrilla);
    agregar(pantalla);
+
+
+
+
    
 }
 
-void Portatil::fijarAlpha( const float alpha_nuevo )
+unsigned Portatil::leerNumParametros() const {
+   return 1;
+}
+
+void Portatil::actualizarEstadoParametro(const unsigned iParam, const float t_sec){
+   switch (iParam)
+   {
+   case 0:
+      insertarPen(velocidad * t_sec);
+      break;
+   default:
+      break;
+   }
+}
+
+void Portatil::cerrarPantalla( const float alpha_nuevo )
 {
    *cierra_pantalla = glm::rotate( alpha_nuevo, glm::vec3( 0.0, 0.0, 1.0 ));
 }
 
-void Portatil::fijarH( const float h_nuevo )
+void Portatil::insertarPen( const float h_nuevo )
 {
-   *inserta_pen = glm::scale( glm::vec3( 1.0, h_nuevo/1.5, 1.0 ));
+   *inserta_pen = glm::translate( glm::vec3( -1, 0, 0 ));
 }
 
 /////////////////////////////////////////////////
