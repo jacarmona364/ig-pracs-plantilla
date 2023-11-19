@@ -601,7 +601,7 @@ PiramideEstrellaZ::PiramideEstrellaZ(unsigned n)
       col_ver.push_back({x, y, z}); // Color basado en las coordenadas X, Y y Z
    }
 
-   vertices.push_back({0.5, 0.5, 0.5});//falta unir este vertice con los demás
+   vertices.push_back({0.5, 0.5, 0.5});
    col_ver.push_back({1, 1, 1});
 
    // Crear los triángulos

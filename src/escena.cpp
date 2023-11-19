@@ -375,7 +375,7 @@ Escena3::Escena3()
 
    //objetos.push_back( new Cilindro(12,50));
 
-   objetos.push_back( new Portatil(0.0) );
+   objetos.push_back( new Portatil(0.0f, -1.0f));
    objetos.push_back( new GrafoEstrellaX(1, 8 ));
    objetos.push_back( new GrafoCubos(1, 10, 10 ));
 

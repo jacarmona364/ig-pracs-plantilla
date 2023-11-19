@@ -350,13 +350,16 @@ bool NodoGrafoEscena::buscarObjeto
    return false ;
 }
 
-Portatil::Portatil( const float h_inicial) 
+Portatil::Portatil(const float alpha, const float h_inicial ) 
 :  NodoGrafoEscena() {
+
+   rango_pen = h_inicial;
 
    ponerNombre( std::string("Portátil"));
 
    using namespace glm;
     NodoGrafoEscena * raton = new NodoGrafoEscena();
+    NodoGrafoEscena * rueda_raton = new NodoGrafoEscena();
     NodoGrafoEscena * bisagras = new NodoGrafoEscena();
     NodoGrafoEscena * pen = new NodoGrafoEscena();
     NodoGrafoEscena * base = new NodoGrafoEscena();
@@ -376,12 +379,20 @@ Portatil::Portatil( const float h_inicial)
    raton->agregar ( scale(vec3(1, 0.6, 1)) );
    raton->agregar ( new Esfera(20,20) );
 
-   raton->agregar ( translate( vec3(0.0f,-2.0f,-1.0f)) );
-   raton->agregar ( scale(vec3(0.2, 0.6, 0.2)) );
-   raton->agregar ( new Esfera(20,20) );
-
    agregar(raton);
 
+
+   // Rueda del ratón
+   rueda_raton->agregar ( translate( vec3(4.0f,0.1f,-0.2f)) );
+   rueda_raton->agregar ( scale(vec3(0.04, 0.04, 0.04)) );
+   rueda_raton->agregar ( rotate(radians(180.0f), vec3(1.0, 1.0, 0.0)));
+   rueda_raton->agregar ( translate( vec3(2.0f, -18.0f, -2.0f)) );
+   unsigned ind_ani_rr = rueda_raton->agregar(scale(vec3(1.0,1.0,1.0)));
+   rueda_raton->agregar ( new Cilindro(20,20) );
+
+   gira_rueda = rueda_raton->leerPtrMatriz(ind_ani_rr);
+
+   agregar(rueda_raton);
 
    // Bisagras
    bisagras->agregar ( translate( vec3(0.0f,0.0f,0.0f)) );
@@ -447,10 +458,17 @@ Portatil::Portatil( const float h_inicial)
    agregar(alfombrilla);
 
    // Pantalla
+   unsigned ind_ani_pan = pantalla->agregar(scale(vec3(1.0,1.0,1.0)));
+   unsigned ind_ani_lpan = pantalla->agregar(scale(vec3(1.0,1.0,1.0)));
+
    pantalla->agregar ( rotate(radians(270.0f), vec3(1.0f,0.0f,0.0f)) );
    pantalla->agregar ( translate( vec3(0.0f, 1.30f, 1.30f)) );
+
    pantalla->agregar ( scale(vec3(2.0, 0.04, 1.25)) );
    pantalla->agregar ( new CuboColores() );
+
+   separa_pantalla = pantalla->leerPtrMatriz(ind_ani_pan);
+   levanta_pantalla = pantalla->leerPtrMatriz(ind_ani_lpan);
 
    agregar(pantalla);
 
@@ -461,28 +479,41 @@ Portatil::Portatil( const float h_inicial)
 }
 
 unsigned Portatil::leerNumParametros() const {
-   return 1;
+   return 3;
 }
 
 void Portatil::actualizarEstadoParametro(const unsigned iParam, const float t_sec){
    switch (iParam)
    {
    case 0:
-      insertarPen(velocidad * t_sec);
+      insertarPen(rango_pen, t_sec);
+      break;
+   case 1:
+      separarPantalla(30.0f);
+      break;
+   case 2:
+      girarRueda(90.0f* t_sec);
       break;
    default:
       break;
    }
 }
 
-void Portatil::cerrarPantalla( const float alpha_nuevo )
+void Portatil::separarPantalla( const float alpha_nuevo )
 {
-   *cierra_pantalla = glm::rotate( alpha_nuevo, glm::vec3( 0.0, 0.0, 1.0 ));
+   *separa_pantalla = glm::rotate( glm::radians(-alpha_nuevo), glm::vec3( 1.0, 0.0, 0.0 ));
+   *levanta_pantalla = glm::translate( glm::vec3( 0.0, 1.0, 0.0 ));
 }
 
-void Portatil::insertarPen( const float h_nuevo )
+void Portatil::insertarPen( const float h_nuevo, const float t_sec )
 {
-   *inserta_pen = glm::translate( glm::vec3( -1, 0, 0 ));
+   float movimiento = h_nuevo + h_nuevo * sin(2 * M_PI * velocidad * t_sec);
+   *inserta_pen = glm::translate( glm::vec3( movimiento, 0, 0 ));
+}
+
+void Portatil::girarRueda( const float alpha_nuevo )
+{
+   *gira_rueda = glm::rotate( glm::radians(alpha_nuevo), glm::vec3( 0.0, 1.0, 0.0 ));
 }
 
 /////////////////////////////////////////////////

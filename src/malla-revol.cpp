@@ -107,8 +107,6 @@ Cilindro::Cilindro(const int num_verts_per, const unsigned nperfiles)
       {+1, 1, 0}
    };
 
-   ponerColor({0.5,0.5,0.5});
-
    // Inicializar la malla por revolución con el perfil y el número de perfiles
    inicializar(perfil, nperfiles);
 }
@@ -140,6 +138,5 @@ Esfera::Esfera(const int num_verts_per, const unsigned nperfiles)
       perfil.push_back( {x, y, 0.0});
    }
    inicializar(perfil,nperfiles);
-   ponerColor({0.5,0.5,0.5});
 
 }
