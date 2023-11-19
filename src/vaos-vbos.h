@@ -1,3 +1,6 @@
+// Nombre: José Antonio, Apellidos: Carmona Molina, Titulación: GIADE.
+// email: jacarmona@correo.ugr.es, DNI o pasaporte: 77552812D
+
 #ifndef VBOS_VAOS_H
 #define VBOS_VAOS_H
 

@@ -1,3 +1,6 @@
+// Nombre: José Antonio, Apellidos: Carmona Molina, Titulación: GIADE.
+// email: jacarmona@correo.ugr.es, DNI o pasaporte: 77552812D
+
 #include "modelo-jer.h"
 
 Portatil::Portatil(const float alpha, const float rango, const float h  ) 
